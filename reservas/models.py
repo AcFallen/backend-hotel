@@ -1,13 +1,16 @@
 from django.db import models
 from habitaciones.models import Habitacion
 from clientes.models import Cliente
+from django.utils import timezone
+
+
 
 # Create your models here.
 class Reserva(models.Model):
     id = models.AutoField(primary_key=True , null=False)
-    cliente = models.ForeignKey(to=Cliente,
+    clienteId = models.ForeignKey(to=Cliente,
                                 on_delete=models.PROTECT)
-    habitacion = models.ForeignKey(to=Habitacion,
+    habitacionId = models.ForeignKey(to=Habitacion,
                                    on_delete=models.PROTECT)
     ESTADO_CHOICES = (
         ('pendiente', 'Pendiente'),
@@ -19,7 +22,7 @@ class Reserva(models.Model):
     
     estado = models.CharField(choices=ESTADO_CHOICES , default='pendiente')
     metodo_de_pago = models.CharField(null=False)
-    hora_ingreso = models.DateTimeField(auto_now=True)
+    hora_ingreso = models.DateTimeField(default=timezone.now)
     hora_salida = models.DateTimeField(blank=True, null=True)
     
     class Meta:
