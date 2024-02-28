@@ -11,7 +11,7 @@ class ReservasController(APIView):
     def get(self,request):
         resultado = Reserva.objects.all()
         
-        serializador = ReservaSerializer(instance=resultado , many=True)
+        serializador = ReservaInfoSeializer(instance=resultado , many=True)
         return Response(data={
             'message': 'Lista de reservas',
             'content': serializador.data

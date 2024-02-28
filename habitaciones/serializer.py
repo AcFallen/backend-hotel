@@ -12,10 +12,11 @@ class HabitacionSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class HabitacionInfoSerializer(serializers.ModelSerializer):
-    tipo = TipoSerializer(source='tipoId',read_only=True)
+    tipo = TipoSerializer(source='tipoId')
     
     class Meta:
         model = Habitacion
+        #fields = '__all__'
         exclude = ['tipoId']
         
 class HabitacionDisponibilidadSerializer(serializers.ModelSerializer):

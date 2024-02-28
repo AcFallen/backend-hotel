@@ -9,9 +9,11 @@ from django.utils import timezone
 class Reserva(models.Model):
     id = models.AutoField(primary_key=True , null=False)
     clienteId = models.ForeignKey(to=Cliente,
-                                on_delete=models.PROTECT)
+                                on_delete=models.PROTECT,
+                                related_name='clienteId')
     habitacionId = models.ForeignKey(to=Habitacion,
-                                   on_delete=models.PROTECT)
+                                   on_delete=models.PROTECT,
+                                   related_name='habitacionId')
     ESTADO_CHOICES = (
         ('pendiente', 'Pendiente'),
         ('confirmada', 'Confirmada'),
