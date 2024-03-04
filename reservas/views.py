@@ -5,6 +5,8 @@ from rest_framework import status
 from .models import *
 from .serializer import *
 
+from drf_yasg.utils import swagger_auto_schema
+
 # Create your views here.
 
 class ReservasController(APIView):
@@ -17,6 +19,7 @@ class ReservasController(APIView):
             'content': serializador.data
         })
 
+    @swagger_auto_schema(request_body=ReservaSerializer)
     def post(self,request):
         serializador = ReservaSerializer(data=request.data)
         
