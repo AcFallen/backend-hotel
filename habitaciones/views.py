@@ -8,6 +8,7 @@ from .models import *
 from .serializer import *
 
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 # Create your views here.
 
 class TiposController(APIView):
@@ -92,6 +93,7 @@ class HabitacionesController(APIView):
             'content': serializador.data
         })
     
+    @swagger_auto_schema(request_body=HabitacionSerializer)
     def post(self,request):
         serializador = HabitacionSerializer(data=request.data)
         if serializador.is_valid():
@@ -117,7 +119,8 @@ class HabitacionController(APIView):
         return Response(data={
             'content': serializador.data
         }, status=status.HTTP_200_OK)    
-        
+
+    @swagger_auto_schema(request_body=HabitacionSerializer)    
     def put(self,request,id):
         habitacion_encontrada = Habitacion.objects.filter(id=id).first()
         if not habitacion_encontrada:
@@ -139,6 +142,7 @@ class HabitacionController(APIView):
                 'content': serializador.errors
             }, status=status.HTTP_400_BAD_REQUEST)
     
+    
     def delete(self,request,id):
         habitacion_encontrada = Habitacion.objects.filter(id=id).first()
         if not habitacion_encontrada:
@@ -149,7 +153,29 @@ class HabitacionController(APIView):
         Habitacion.objects.filter(id=id).delete()
         
         return Response(data=None, status=status.HTTP_204_NO_CONTENT)
-    
+
+
+@swagger_auto_schema(method='put',
+                     request_body=HabitacionDisponibilidadSerializer,
+                     responses={
+                         201: openapi.Response('respuesta exitosa',
+                                               examples={
+                                                   'application/json': {
+                                                       'message': 'Se actualizo disponibilidad con exito',
+                                                       'content': {
+                                                           'id': 1,
+                                                           'disponibilidad': 'true',                         
+                                                       }
+                                                   }
+                                               }),
+                         400: openapi.Response('respuesta fallida',
+                                               examples={
+                                                   'application/json': {
+                                                       'message': 'Error al actualizar disponibilidad',
+                                                       'content': ' errores'
+                                                   }
+                                               })})
+
 @api_view(http_method_names=['PUT'])
 def cambiarDisponibilidadHabitacion(request , id):
     
