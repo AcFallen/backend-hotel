@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view
 from .models import *
 from .serializer import *
 
+from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 class TiposController(APIView):
@@ -18,7 +19,8 @@ class TiposController(APIView):
             'message': 'Estos son todos los tipos de habitaciones',
             'content': serializador.data
         })
-        
+
+    @swagger_auto_schema(request_body=TipoSerializer)    
     def post(self,request):
         serializador = TipoSerializer(data=request.data)
         if serializador.is_valid():
@@ -46,7 +48,8 @@ class TipoController(APIView):
         return Response(data={
             'content': serializador.data
         }, status=status.HTTP_200_OK)
-        
+    
+    @swagger_auto_schema(request_body=TipoSerializer)    
     def put(self,request,id):
         tipo_encontrado = Tipo.objects.filter(id=id).first()
         if not tipo_encontrado:
@@ -67,7 +70,8 @@ class TipoController(APIView):
                 'message': 'Error al actualizar el tipo de habitacion',
                 'content': serializador.errors
             }, status=status.HTTP_400_BAD_REQUEST)
-    
+        
+    @swagger_auto_schema(request_body=TipoSerializer)
     def delete(self , request, id):
         tipo_encontrado = Tipo.objects.filter(id=id).first()
         if not tipo_encontrado:

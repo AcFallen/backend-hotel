@@ -4,7 +4,7 @@ from .models import *
 class TipoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tipo
-        exclude = ['id']
+        fields = '__all__'
 
 class HabitacionSerializer(serializers.ModelSerializer):
     class Meta:
