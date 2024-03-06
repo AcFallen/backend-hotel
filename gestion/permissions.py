@@ -10,3 +10,14 @@ class Administrador(BasePermission):
         
         else:
             return False
+        
+class Recepcion(BasePermission):
+    message = 'Solo los recepcionistas pueden acceder a estas rutas'
+    def has_permission(self, request, view):
+        tipoUsuario = request.user.tipo_usuario
+        
+        if tipoUsuario == 'RECEPCIONISTA':
+            return True
+        
+        else:
+            return False

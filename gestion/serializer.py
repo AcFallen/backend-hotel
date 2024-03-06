@@ -4,7 +4,7 @@ from .models import UsuarioModel
 class RegistroUsuarioSerializer(serializers.ModelSerializer):
     class Meta: 
         model = UsuarioModel
-        fields = '__all__'
+        fields = ['nombre', 'apellido' , 'correo', 'password' , 'tipo_usuario']
         
 class MostrarPerfilSerializer(serializers.ModelSerializer):
      class Meta: 

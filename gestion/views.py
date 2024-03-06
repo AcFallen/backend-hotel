@@ -1,11 +1,16 @@
 from rest_framework import generics , response , status , request ,permissions
 from .serializer import *
+from .permissions import Administrador
+
+from drf_yasg.utils import swagger_auto_schema
 
 
 # Create your views here.
 
 
 class RegistroUsuarioController(generics.CreateAPIView):
+    permission_classes=[permissions.IsAuthenticated , Administrador]
+    @swagger_auto_schema(request_body=RegistroUsuarioSerializer)
     def post(self, request: request.Request):
         serializador = RegistroUsuarioSerializer(data=request.data)
         
@@ -24,13 +29,23 @@ class RegistroUsuarioController(generics.CreateAPIView):
                 'content': serializador.errors
             },status=status.HTTP_400_BAD_REQUEST)
             
-class PerfilUsuarioController(generics.RetrieveAPIView):
+# class PerfilUsuarioController(generics.RetrieveAPIView):
     
+#     permission_classes = [permissions.IsAuthenticated]
+#     def get(self , request : request.Request):
+        
+#         usuario_encontrado = MostrarPerfilSerializer(instance= request.user)
+        
+#         return response.Response (data={
+#             'content': usuario_encontrado.data
+#         })
+    
+class PerfilUsuarioController(generics.RetrieveAPIView):
+    serializer_class = MostrarPerfilSerializer
     permission_classes = [permissions.IsAuthenticated]
-    def get(self , request : request.Request):
-        
-        usuario_encontrado = MostrarPerfilSerializer(instance= request.user)
-        
-        return response.Response (data={
+
+    def get(self, request):
+        usuario_encontrado = self.serializer_class(instance=request.user)
+        return response.Response(data={
             'content': usuario_encontrado.data
         })
