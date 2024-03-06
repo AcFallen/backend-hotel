@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status , permissions
+from gestion.permissions import *
 from rest_framework.decorators import api_view
 
 
@@ -20,7 +21,7 @@ class TiposController(APIView):
             'message': 'Estos son todos los tipos de habitaciones',
             'content': serializador.data
         })
-
+    permission_classes = [permissions.IsAuthenticated]
     @swagger_auto_schema(request_body=TipoSerializer)    
     def post(self,request):
         serializador = TipoSerializer(data=request.data)

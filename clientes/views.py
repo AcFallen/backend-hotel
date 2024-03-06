@@ -7,11 +7,11 @@ from .serializer import *
 
 from drf_yasg.utils import swagger_auto_schema
 
-from gestion.permissions import Administrador
+
 # Create your views here.
 
 class ClientesController(APIView):
-    permission_classes = [permissions.IsAuthenticated ,Administrador]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
         resultado = Cliente.objects.all()
         
