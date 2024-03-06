@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'habitaciones',
     'clientes',
     'reservas',
+    'gestion',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,5 @@ REST_FRAMEWORK = {
     )
     
 }
+
+AUTH_USER_MODEL = 'gestion.UsuarioModel'
