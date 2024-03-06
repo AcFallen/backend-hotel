@@ -150,3 +150,14 @@ AUTH_USER_MODEL = 'gestion.UsuarioModel'
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=12)
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+}
