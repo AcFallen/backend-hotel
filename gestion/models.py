@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser , PermissionsMixin
-from auth_manager import UsuarioManager
+from .auth_manager import UsuarioManager
 
 # Create your models here.
 
@@ -10,6 +10,8 @@ class UsuarioModel(AbstractBaseUser, PermissionsMixin):
     apellido = models.CharField(max_length=100)
     correo = models.EmailField(unique =True , null=False)
     password = models.TextField(null=False)
+    tipo_usuario = models.CharField(max_length=100 , choices = [('ADMINISTRADOR' , 'ADMINISTRADOR'),
+                                                                ('RECEPCIONISTA','RECEPCIONISTA')] , default='ADMINISTRADOR')
     
     is_staff = models.BooleanField(default = False)
     is_active = models.BooleanField(default = True)
@@ -20,7 +22,7 @@ class UsuarioModel(AbstractBaseUser, PermissionsMixin):
     
     REQUIRED_FIELDS = ['nombre' , 'apellido']
     
-    objects = UsuarioManager
+    objects = UsuarioManager()
     
     class Meta:
         db_table = 'usuarios'
