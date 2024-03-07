@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status , permissions
 
 from .models import *
 from .serializer import *
@@ -10,6 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 class ReservasController(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self,request):
         resultado = Reserva.objects.all()
         
