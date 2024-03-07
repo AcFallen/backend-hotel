@@ -2,7 +2,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status , permissions
 from gestion.permissions import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view , permission_classes
+
+from rest_framework.permissions import IsAuthenticated
 
 
 from .models import *
@@ -13,6 +15,8 @@ from drf_yasg import openapi
 # Create your views here.
 
 class TiposController(APIView):
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
     def get(self,request):
         resultado = Tipo.objects.all()
         
@@ -21,7 +25,7 @@ class TiposController(APIView):
             'message': 'Estos son todos los tipos de habitaciones',
             'content': serializador.data
         })
-    permission_classes = [permissions.IsAuthenticated]
+    
     @swagger_auto_schema(request_body=TipoSerializer)    
     def post(self,request):
         serializador = TipoSerializer(data=request.data)
@@ -39,6 +43,8 @@ class TiposController(APIView):
             
 class TipoController(APIView):
     
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+
     def get(self , request, id):
         tipo_encontrado = Tipo.objects.filter(id=id).first()
         if not tipo_encontrado:
@@ -85,6 +91,9 @@ class TipoController(APIView):
         return Response(data=None,status=status.HTTP_204_NO_CONTENT)
 
 class HabitacionesController(APIView):
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+
     def get(self,request):
         resultado = Habitacion.objects.all()
         
@@ -110,6 +119,9 @@ class HabitacionesController(APIView):
             },status=status.HTTP_400_BAD_REQUEST)
             
 class HabitacionController(APIView):
+
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+
     def get(self, request, id):
         habitacion_encontrada = Habitacion.objects.filter(id=id).first()
         if not habitacion_encontrada:
@@ -156,7 +168,10 @@ class HabitacionController(APIView):
         return Response(data=None, status=status.HTTP_204_NO_CONTENT)
 
 
+
+
 @swagger_auto_schema(method='put',
+                     
                      request_body=HabitacionDisponibilidadSerializer,
                      responses={
                          201: openapi.Response('respuesta exitosa',
@@ -178,8 +193,8 @@ class HabitacionController(APIView):
                                                })})
 
 @api_view(http_method_names=['PUT'])
+@permission_classes([IsAuthenticated , Recepcion])
 def cambiarDisponibilidadHabitacion(request , id):
-    
     habitacion_encontrada = Habitacion.objects.filter(id=id).first()
     if not habitacion_encontrada:
         return Response(data={
