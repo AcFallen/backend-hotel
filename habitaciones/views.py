@@ -216,3 +216,14 @@ def cambiarDisponibilidadHabitacion(request , id):
             'message': 'Error al actualizar habitacion',
             'content': serializador.errors
         }, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+@api_view(http_method_names=['GET'])
+def habitacionesDisponibles(request):
+    habitaciones_disponibles = Habitacion.objects.filter(disponible = True).all()
+    serializador = HabitacionInfoSerializer(instance=habitaciones_disponibles , many=True)
+
+    return Response(data={
+        "message": "Habitaciones disponibles",
+        'content': serializador.data
+    })

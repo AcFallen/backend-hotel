@@ -7,4 +7,5 @@ urlpatterns = [
     path('',view=HabitacionesController.as_view()),
     path('<int:id>',view=HabitacionController.as_view()),
     path('<int:id>/disponibilidad/',view=cambiarDisponibilidadHabitacion),
+    path('disponibles/',view=habitacionesDisponibles)
 ]
