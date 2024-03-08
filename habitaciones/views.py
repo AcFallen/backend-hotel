@@ -16,7 +16,7 @@ from drf_yasg import openapi
 
 class TiposController(APIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+    permission_classes = [permissions.IsAuthenticated , Administrador]
     def get(self,request):
         resultado = Tipo.objects.all()
         
@@ -43,7 +43,7 @@ class TiposController(APIView):
             
 class TipoController(APIView):
     
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+    permission_classes = [permissions.IsAuthenticated , Administrador]
 
     def get(self , request, id):
         tipo_encontrado = Tipo.objects.filter(id=id).first()
@@ -219,6 +219,7 @@ def cambiarDisponibilidadHabitacion(request , id):
     
     
 @api_view(http_method_names=['GET'])
+@permission_classes([permissions.AllowAny])
 def habitacionesDisponibles(request):
     habitaciones_disponibles = Habitacion.objects.filter(disponible = True).all()
     serializador = HabitacionInfoSerializer(instance=habitaciones_disponibles , many=True)
@@ -226,4 +227,22 @@ def habitacionesDisponibles(request):
     return Response(data={
         "message": "Habitaciones disponibles",
         'content': serializador.data
-    })
+    }, status=status.HTTP_200_OK)
+
+@api_view(http_method_names=['GET'])
+def habitacionPorTipoDisponibles(request):
+    if request.query_params.get('tipoId'):
+        tipo_habitacion = request.query_params.get('tipoId')
+
+        resultado = Habitacion.objects.filter( tipoId__exact = tipo_habitacion ).all()
+        resultado = resultado.filter(disponible = True).all()
+        seralizador = HabitacionInfoSerializer(instance=resultado , many=True)
+
+        return Response(data={
+            'message': 'Filtro por tipo de habitacion',
+            'content': seralizador.data
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response(data={
+            'message': 'Falta el nombre en el query param'
+        }, status=status.HTTP_400_BAD_REQUEST)
