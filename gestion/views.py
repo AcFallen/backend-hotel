@@ -49,3 +49,8 @@ class PerfilUsuarioController(generics.RetrieveAPIView):
         return response.Response(data={
             'content': usuario_encontrado.data
         })
+    
+class ActualizarPerfilController(generics.UpdateAPIView):
+    permission_classes=[ permissions.IsAuthenticated , Administrador ]
+    queryset = UsuarioModel.objects.all()
+    serializer_class = ActualizarPerfilUsuarioSerializer
