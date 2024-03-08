@@ -92,7 +92,7 @@ class TipoController(APIView):
 
 class HabitacionesController(APIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self,request):
         resultado = Habitacion.objects.all()
@@ -120,7 +120,7 @@ class HabitacionesController(APIView):
             
 class HabitacionController(APIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly , Administrador]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request, id):
         habitacion_encontrada = Habitacion.objects.filter(id=id).first()
