@@ -15,17 +15,17 @@ class Reserva(models.Model):
                                    on_delete=models.PROTECT,
                                    related_name='habitacionId')
     ESTADO_CHOICES = (
-        ('pendiente', 'Pendiente'),
-        ('confirmada', 'Confirmada'),
-        ('pagada', 'Pagada'),
-        ('cancelada', 'Cancelada'),
-        ('finalizada', 'Finalizada'),
+        ('PENDIENTE', 'Pendiente'),
+        ('CANCELADA', 'Cancelada'),
+        ('ESCAPADO', 'Escapado'),
     )
     
     estado = models.CharField(choices=ESTADO_CHOICES , default='pendiente')
     metodo_de_pago = models.CharField(null=False)
     hora_ingreso = models.DateTimeField(default=timezone.now)
     hora_salida = models.DateTimeField(blank=True, null=True)
+
+    total = models.IntegerField(null=True, blank = True )
     
     class Meta:
         db_table = 'reservas'
