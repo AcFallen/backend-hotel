@@ -15,4 +15,8 @@ class ReservaInfoSeializer(serializers.ModelSerializer):
     class Meta:
         model = Reserva
         fields = '__all__'
-        
+
+class ActulizarEstadoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reserva
+        fields =  ['estado']
