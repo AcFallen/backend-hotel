@@ -54,11 +54,13 @@ class ListaDeReservasController(generics.ListAPIView):
     search_fields = ('id','estado')
 
 class ObtnerReservaController(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Reserva.objects.all()
     serializer_class = ReservaInfoSeializer
     filter_backends = (DjangoFilterBackend, SearchFilter)
 
 class ActualizarEstadoReservaController(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Reserva.objects.all()
     serializer_class = ActulizarEstadoSerializer
     filter_backends = (DjangoFilterBackend,SearchFilter)
