@@ -49,6 +49,7 @@ class ActualizarEstadoReservaController(generics.UpdateAPIView):
 
 
 class GenerarBoletaController(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self , request : Request):
 
         serializador = GenerarBoletaSerializer(data=request.data)
@@ -100,7 +101,7 @@ class GenerarBoletaController(APIView):
             "operacion": "generar_comprobante",
             "tipo_de_comprobante": 2,
             "serie": "BBB1",
-            "numero": 1,
+            "numero": body.get('numero_factura'),
             "sunat_transaction": 1,
             "cliente_tipo_de_documento": 1,
             "cliente_numero_de_documento": body.get('documento_usuario'),
@@ -129,7 +130,8 @@ class GenerarBoletaController(APIView):
             },status=status.HTTP_400_BAD_REQUEST)
 
         return Response(data={
-            'message':'Boleta Creada Exitosamente'
+            'message':'Boleta Creada Exitosamente',
+            'content': peticion.json().get('enlace_del_pdf')
         },status=status.HTTP_201_CREATED)
     
     def get(self ,request:Request , serie , numero):
