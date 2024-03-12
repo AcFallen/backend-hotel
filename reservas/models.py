@@ -25,7 +25,7 @@ class Reserva(models.Model):
     hora_ingreso = models.DateTimeField(default=timezone.now)
     hora_salida = models.DateTimeField(blank=True, null=True)
 
-    total = models.IntegerField(null=True, blank = True )
+
     
     class Meta:
         db_table = 'reservas'
