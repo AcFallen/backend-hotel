@@ -15,7 +15,7 @@ from drf_yasg import openapi
 @swagger_auto_schema(method='post',request_body=GenerarBoletaSerializer)
 @api_view(http_method_names=['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def generarBoleta(self , request : Request ):
+def generarBoleta( request : Request ):
     
     serializador = GenerarBoletaSerializer ( data=request.data)
     serializador.is_valid(raise_exception=True)
@@ -100,7 +100,7 @@ def generarBoleta(self , request : Request ):
     
 @api_view(http_method_names=['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def consultarBoleta(self ,request:Request , serie , numero):
+def consultarBoleta(request:Request , serie , numero):
     data = {
             'operacion': 'consultar_comprobante',
             'tipo_de_comprobante': 2,
