@@ -40,6 +40,7 @@ urlpatterns = [
     path('clientes/', include('clientes.urls')),
     path('reservas/',include('reservas.urls')),
     path('gestion/',include('gestion.urls')),
+    path('facturacion/',include('facturacion.urls')),
     
     path('documentacion/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
